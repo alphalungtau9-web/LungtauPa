@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intraday Position Sizing Calculator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .box {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 320px;
+    }
+    h2 {
+        margin-top: 0;
+        text-align: center;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    .result {
+        margin-top: 15px;
+        padding: 12px;
+        background: #e7f5ff;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Intraday Position Sizing</h2>
+
+    <label>Account Balance (₹)</label>
+    <input type="number" id="balance" placeholder="Enter total capital">
+
+    <label>Risk % Per Trade</label>
+    <input type="number" id="riskPercent" placeholder="Example: 1">
+
+    <label>Stop-Loss (₹ per share / point)</label>
+    <input type="number" id="stopLoss" placeholder="Example: 5">
+
+    <button onclick="calculate()">Calculate Position Size</button>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+function calculate() {
+    const balance = parseFloat(document.getElementById("balance").value);
+    const riskPercent = parseFloat(document.getElementById("riskPercent").value);
+    const stopLoss = parseFloat(document.getElementById("stopLoss").value);
+
+    if (balance > 0 && riskPercent > 0 && stopLoss > 0) {
+        const riskAmount = (balance * riskPercent) / 100;
+        const positionSize = Math.floor(riskAmount / stopLoss);
+
+        document.getElementById("result").innerHTML =
+            `You can take <b>${positionSize}</b> quantity. <br>Risk Amount: ₹${riskAmount.toFixed(2)}`;
+    } else {
+        document.getElementById("result").innerHTML = "⚠️ Please enter all values correctly.";
+    }
+}
+</script>
+
+</body>
+</html>
